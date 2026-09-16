@@ -2,9 +2,9 @@ name: Katabump Auto Renew
 
 on:
   schedule:
-    # 每天 UTC 0点 (北京时间 8点) 运行
+    # Runs daily at UTC 0:00 (Beijing time 8:00 AM)
     - cron: '0 0 * * *'
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
   renew:
@@ -27,13 +27,13 @@ jobs:
       
     - name: Run Renew Script
       env:
-        # 将 USERS_JSON 配置在 GitHub Repository Secrets 中
-        # 格式: [{"username": "xxx", "password": "xxx"}, ...]
+        # Configure USERS_JSON in GitHub Repository Secrets
+        # Format: [{"username": "xxx", "password": "xxx"}, ...]
         USERS_JSON: ${{ secrets.USERS_JSON }}
         HTTP_PROXY: ${{ secrets.HTTP_PROXY }}
         TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
         TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-      # 使用 xvfb-run 模拟有头环境运行
+      # Use xvfb-run to simulate a headed environment
       run: xvfb-run --auto-servernum --server-args="-screen 0 1280x720x24" node action_renew.js
 
     - name: Upload Screenshots
